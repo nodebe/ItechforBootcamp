@@ -1,0 +1,17 @@
+
+	As you probably know, the method attribute of the <form> element can be GET or POST. With GET, the data is submitted in the query string of the request URL, while with POST it goes in the request body. When files are being included in the form, you must use POST, as it would be impossible to submit file data in the query string.
+
+The enctype attribute in the <form> element is normally not included with forms that don't have files. This attribute defines how the browser should format the data before it is submitted to the server. The HTML specification defines three possible values for it:
+
+application/x-www-form-urlencoded: This is the default, and the best format for any forms except those that contain file fields.
+multipart/form-data: This format is required when at least one of the fields in the form is a file field.
+text/plain: This format has no practical use, so you should ignore it.
+The actual file field is the standard <input> element that we use for most other form fields, with the type set to file. In the example above I haven't included any additional attributes, but the file field supports two that are sometimes useful:
+
+multiple can be used to allow multiple files to be uploaded in a single file field. Example:
+	
+	Accepting File Submissions with Flask
+For regular forms, Flask provides access to submitted form fields in the request.form dictionary. File fields, however, are included in the request.files dictionary. The request.form and request.files dictionaries are really "multi-dicts", a specialized dictionary implementation that supports duplicate keys. This is necessary because forms can include multiple fields with the same name, as is often the case with groups of check boxes. This also happens with file fields that allow multiple files.
+
+Ignoring important aspects such as validation and security for the moment, the short Flask application shown below accepts a file uploaded with the form shown in the previous section, and writes the submitted file to the current directory:
+	
